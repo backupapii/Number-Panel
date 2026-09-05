@@ -13,10 +13,10 @@ from firebase_admin import credentials, firestore
 # ==========================================
 # Configuration
 # ==========================================
-BOT_TOKEN = "YOUR_BOT_TOKEN"
-ADMIN_ID = YOUR_TELEGRAM_USER_ID
+BOT_TOKEN = "8977869410:AAHMNaCMwaxN3Ulo1BVRETEtJdmAT-0vM3A"
+ADMIN_ID = 8361587941
 BASE_URL = f"https://api.telegram.org/bot{BOT_TOKEN}/"
-BOT_USERNAME = ""
+BOT_USERNAME = "@NUMBER_PENEL_BOT"
 
 # 2oo9 API Configuration
 API_2OO9_BASE = "https://api.2oo9.cloud/MXS47FLFX0U/tnevs/@public/api"
@@ -149,7 +149,7 @@ bot_settings = {
     "w_methods": ["bKash", "Nagad"],
     "otp_default_rate": 0.5,
     "otp_service_rates": {},
-    "main_channel_link": ""
+    "main_channel_link": "https://t.me/Shakil_X9X"
 }
 
 BOT_DATA_FILE = "bot_data.json"
