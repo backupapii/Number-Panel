@@ -13,8 +13,8 @@ from firebase_admin import credentials, firestore
 # ==========================================
 # Configuration
 # ==========================================
-BOT_TOKEN = "8977869410:AAHMNaCMwaxN3Ulo1BVRETEtJdmAT-0vM3A"
-ADMIN_ID = 8361587941
+BOT_TOKEN = "YOUR_BOT_TOKEN"
+ADMIN_ID = YOUR_TELEGRAM_USER_ID
 BASE_URL = f"https://api.telegram.org/bot{BOT_TOKEN}/"
 BOT_USERNAME = ""
 
@@ -41,7 +41,7 @@ force_join_channels = []
 
 # OTP Forwarding States
 otp_forward_groups = []
-otp_button_link = "https://t.me/otp_groupe"
+otp_button_link = "https://t.me/your_default_bot"
 recent_success_otps = set()
 
 voltx_dynamic_data = {} 
@@ -1251,7 +1251,7 @@ def get_upload_firebase_keyboard():
     return {"inline_keyboard": [[{"text": "CANCEL", "callback_data": "back_to_admin", "icon_custom_emoji_id": "5420130255174145507", "style": "danger"}]]}
 
 def get_back_only_keyboard():
-    return {"inline_keyboard": [[{"text": "BACK", "callback_data": "back_to_admin", "icon_custom_emoji_id": "5438541186539232243", "style": "danger"}]]}
+    return {"inline_keyboard": [[{"text": "BACK", "callback_data": "user_cancel", "icon_custom_emoji_id": "5438541186539232243", "style": "danger"}]]}
 
 def get_leaderboard_keyboard():
     return {"inline_keyboard": [[{"text": "REFRESH", "callback_data": "refresh_leaderboard", "icon_custom_emoji_id": "5229111790842952353", "style": "success"}]]}
@@ -1494,8 +1494,8 @@ def handle_message(message):
         send_message(chat_id, fj_msg, reply_markup=get_force_join_alert_keyboard())
         return
 
-    # Handle Admin Input States
-    if user_id == ADMIN_ID and user_id in user_states:
+    # Handle Admin & User Input States
+    if user_id in user_states:
         state_data = user_states[user_id]
         if isinstance(state_data, dict):
             state = state_data.get("state")
@@ -1777,13 +1777,16 @@ def handle_message(message):
                 target_data = get_user(target_uid)
                 
                 if target_data:
+                    safe_name = html.escape(str(target_data.get('first_name', 'User')))
+                    total_otps = target_data.get('total_otps', 0)
                     msg = (
                         f"<tg-emoji emoji-id=\"5352861489541714456\">👤</tg-emoji> <b>USER PROFILE</b>\n"
                         f"━━━━━━━━━━━━━━━━━\n"
-                        f"<b>Name:</b> {html.escape(target_data['first_name'])}\n"
+                        f"<b>Name:</b> {safe_name}\n"
                         f"<b>ID:</b> <code>{target_uid}</code>\n"
-                        f"<b>Balance:</b> {target_data['balance']:.2f} BDT\n"
-                        f"<b>Total Invites:</b> {target_data['total_invites']}\n"
+                        f"<b>Balance:</b> {target_data.get('balance', 0):.2f} BDT\n"
+                        f"<b>Total OTPs:</b> {total_otps}\n"
+                        f"<b>Total Invites:</b> {target_data.get('total_invites', 0)}\n"
                         f"━━━━━━━━━━━━━━━━━"
                     )
                     if target_msg_id: edit_message(chat_id, target_msg_id, msg, reply_markup=get_user_profile_keyboard(target_uid))
@@ -1980,6 +1983,28 @@ def handle_callback(callback_query):
     if data == "refresh_leaderboard":
         edit_message(chat_id, message_id, get_leaderboard_text(), reply_markup=get_leaderboard_keyboard())
         answer_callback_query(query_id, "Leaderboard Refreshed!")
+        return
+
+    if data.startswith("user_withdraw_"):
+        method = data[14:]
+        user_data = get_user(user_id)
+        bal = user_data.get("balance", 0)
+        min_w = bot_settings.get("min_withdraw", 10.0)
+        
+        if bal < min_w:
+            answer_callback_query(query_id, f"❌ Minimum withdraw is {min_w} BDT. You have {bal:.2f} BDT.", show_alert=True)
+            return
+            
+        user_states[user_id] = {"state": f"waiting_withdraw_amount_{method}", "msg_id": message_id}
+        edit_message(chat_id, message_id, f"💳 <b>Withdraw via {method}</b>\n\n💵 Your Balance: {bal:.2f} BDT\n💬 <b>Enter the amount you want to withdraw:</b>", reply_markup=get_back_only_keyboard())
+        answer_callback_query(query_id)
+        return
+
+    if data == "user_cancel":
+        if user_id in user_states: del user_states[user_id]
+        delete_message(chat_id, message_id)
+        send_message(chat_id, "❌ Action Cancelled.", reply_markup=get_main_keyboard(user_id))
+        answer_callback_query(query_id)
         return
 
     # Admin Operations Only
@@ -2209,21 +2234,6 @@ def handle_callback(callback_query):
     elif data == "close_panel":
         answer_callback_query(query_id, "Closed")
         delete_message(chat_id, message_id)
-        
-    elif data.startswith("user_withdraw_"):
-        method = data[14:]
-        user_data = get_user(user_id)
-        bal = user_data.get("balance", 0)
-        min_w = bot_settings.get("min_withdraw", 10.0)
-        
-        if bal < min_w:
-            answer_callback_query(query_id, f"❌ Minimum withdraw is {min_w} BDT. You have {bal:.2f} BDT.", show_alert=True)
-            return
-            
-        user_states[user_id] = {"state": f"waiting_withdraw_amount_{method}", "msg_id": message_id}
-        edit_message(chat_id, message_id, f"💳 <b>Withdraw via {method}</b>\n\n💵 Your Balance: {bal:.2f} BDT\n💬 <b>Enter the amount you want to withdraw:</b>", reply_markup=get_back_only_keyboard())
-        answer_callback_query(query_id)
-        return
         
     else:
         answer_callback_query(query_id, f"{data} clicked!", show_alert=True)
