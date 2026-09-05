@@ -36,12 +36,15 @@ user_cooldowns = {}
 # Voltx Auto System States
 voltx_auto_mode = True 
 voltx_keys = [API_2OO9_KEY_DEFAULT]
-force_join_status = False
-force_join_channels = []
+force_join_status = True
+force_join_channels = [
+    "https://t.me/otp_groupe",
+    "https://t.me/Shakil_X9X",
+] # এখানে আপনার চ্যানেলের লিংক দিন
 
 # OTP Forwarding States
-otp_forward_groups = []
-otp_button_link = "https://t.me/your_default_bot"
+otp_forward_groups = [-1003906686979]
+otp_button_link = "https://t.me/NUMBER_PENEL_BOT"
 recent_success_otps = set()
 
 voltx_dynamic_data = {} 
