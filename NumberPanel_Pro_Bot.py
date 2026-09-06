@@ -35,11 +35,11 @@ from telegram.constants import ParseMode, ChatAction
 #                  ⚙️ CONFIG SECTION ⚙️
 # ============================================================
 
-BOT_TOKEN = "8977869410:AAHMNaCMwaxN3Ulo1BVRETEtJdmAT-0vM3A"
+BOT_TOKEN = "8969155153:AAH0QdU5YFo7_UYoJfEjBHK-6pORFi7Onz4"
 ADMIN_ID  = 8361587941                                     # আপনার আসল টেলিগ্রাম numeric ID
 ADMINS    = [ADMIN_ID]                                     # একাধিক অ্যাডমিন দিতে চাইলে এখানে যোগ করুন
-BOT_USERNAME = "@NUMBER_PENEL_BOT"                         # এই বটের username
-SOURCE_BOT_USERNAME = "@NUMBER_PENEL_BOT"                  # যে বট থেকে নম্বর/OTP আসবে
+BOT_USERNAME = "@OTP_Code_Penel_Bot"                         # এই বটের username
+SOURCE_BOT_USERNAME = "@OTP_Code_Penel_Bot"                  # যে বট থেকে নম্বর/OTP আসবে
 API_KEY   = "MURAD_7431E56C7564E91505723DA4"               # আগের ফাইলের API key রাখা হয়েছে
 BASE_URL  = "https://fastxotp.com/@Access/@Bot/3oo9/@public"
 
@@ -62,13 +62,13 @@ MAX_WITHDRAW      = 10000        # <-- সর্বোচ্চ উইথড্�
 DAILY_EARNING_CAP = 0            # <-- 0 মানে আনলিমিটেড
 
 # Channel / Support / Force Join
-SUPPORT_LINK    = "https://t.me/Shakil_X9X"
-DEVELOPER_LINK  = "https://t.me/Shakil_X9X"
+SUPPORT_LINK    = "https://t.me/otp_groupe"
+DEVELOPER_LINK  = "https://t.me/Shakil_X9"
 
 # Force-join চ্যানেলগুলো (@otp_groupe এবং @Shakil_X9X)
 REQUIRED_CHANNELS = [
-    {"username": "@otp_groupe", "name": "OTP GROUP",     "url": "https://t.me/otp_groupe"},
-    {"username": "@Shakil_X9X", "name": "Shakil X9X",    "url": "https://t.me/Shakil_X9X"},
+    {"username": "@otp_groupe", "name": "OTP GROUP",            "url": "https://t.me/otp_groupe"},
+    {"username": "@Shakil_X9X", "name": "🌐🚀𝗦𝗵𝗮𝗸𝗶𝗹® 𝗗𝗲𝘃𝗛𝘂𝗯💻",  "url": "https://t.me/Shakil_X9X"},
 ]
 
 # OTP ফরওয়ার্ডিং গ্রুপ আইডি — @otp_groupe (এখানে number/OTP forward হবে)
