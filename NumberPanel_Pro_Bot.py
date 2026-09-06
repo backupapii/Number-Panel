@@ -40,8 +40,8 @@ ADMIN_ID  = int(os.environ.get("ADMIN_ID", 8361587941))                         
 ADMINS    = [ADMIN_ID]                                     # একাধিক অ্যাডমিন দিতে চাইলে এখানে যোগ করুন
 BOT_USERNAME = "@OTP_Code_Penel_Bot"                         # এই বটের username
 SOURCE_BOT_USERNAME = "@OTP_Code_Penel_Bot"                  # যে বট থেকে নম্বর/OTP আসবে
-API_KEY   = os.environ.get("API_KEY", "MURAD_7431E56C7564E91505723DA4")               # আগের ফাইলের API key রাখা হয়েছে
-BASE_URL  = os.environ.get("BASE_URL", "https://fastxotp.com/@Access/@Bot/3oo9/@public")
+API_KEY   = os.environ.get("API_KEY", "MHF5UTYD3L7")               # আগের ফাইলের API key রাখা হয়েছে
+BASE_URL  = os.environ.get("BASE_URL", "https://api.2oo9.cloud/MXS47FLFX0U/tnevs/@public/api")
 
 # Data files
 USER_DATA_FILE       = "users.json"
